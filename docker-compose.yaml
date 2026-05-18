@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    volumes:
+      - ./backend/data:/data
+    ports:
+      - "27017:27017"
+
+  redis:
+     container_name: redis
+     image: redis:latest
+     ports:
+      - "6379:6379"
+
+  backend:
+    container_name: backend
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+      - redis
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - "5173:5173"
+volumes:
+    data:
+
